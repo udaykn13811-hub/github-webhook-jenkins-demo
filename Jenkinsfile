@@ -15,16 +15,26 @@ pipeline {
 
         stage('Webhook Trigger Validation') {
             steps {
-                echo "Pipeline triggered automatically by GitHub"
-                echo "Build Number: ${BUILD_NUMBER}"
-                echo "Git Branch: ${BRANCH_NAME}"
+                echo "======================================"
+                echo " GitHub Webhook Triggered Jenkins"
+                echo "======================================"
+                echo "Build Number: ${env.BUILD_NUMBER}"
+                echo "Pipeline started successfully"
             }
         }
 
         stage('Checkout Source Code') {
             steps {
                 checkout scm
-                echo "Source code downloaded successfully"
+
+                script {
+                    def branch = sh(
+                        script: 'git branch --show-current',
+                        returnStdout: true
+                    ).trim()
+
+                    echo "Checked out branch: ${branch}"
+                }
             }
         }
 
@@ -32,6 +42,7 @@ pipeline {
             steps {
                 sh 'java -version'
                 sh 'mvn -version'
+                sh 'git --version'
             }
         }
 
@@ -64,11 +75,11 @@ pipeline {
     post {
 
         success {
-            echo "Webhook triggered pipeline completed successfully"
+            echo "GitHub webhook pipeline completed successfully"
         }
 
         failure {
-            echo "Pipeline failed. Check Jenkins console output."
+            echo "Pipeline failed. Check the console output"
         }
 
         always {
