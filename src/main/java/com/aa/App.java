@@ -6,7 +6,7 @@ public class App {
         System.out.println(" GitHub Webhook Jenkins Project");
         System.out.println("=================================");
         System.out.println("Build triggered automatically!");
-        System.out.println("Application Version: 1.0");
+        System.out.println("Application Version: 4.0");
         System.out.println("Welcome to AA Software Technologies");
     }
 }
